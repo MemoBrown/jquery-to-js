@@ -1,8 +1,4 @@
 (async function load(){
-  // await 
-  // accion
-  // drama
-  // animation
   async function getData(url){
     const response = await fetch(url)
     const data = await response.json()
@@ -12,8 +8,25 @@
   const dramaList = await getData('https://yts.mx/api/v2/list_movies.json?genre=drama')
   const animationList = await getData('https://yts.mx/api/v2/list_movies.json?genre=animation')
   console.log(actionList, dramaList, animationList)
-
+  function videoItemTemplate(movie){
+    return(
+      `<div class="primaryPlaylistItem">
+        <div class="primaryPlaylistItem-image">
+          <img src="${movie.medium_cover_image}">
+        </div>
+        <h4 class="primaryPlaylistItem-title">${movie.title}</h4>
+       </div>`
+    )
+  }
+  // console.log(videoItemTemplate('src/images/covers/bitcoin.jpg', 'bitcoin'))
   const $actionContainer = document.querySelector('#action')
+  actionList.data.movies.forEach((movie) => {
+    // debugger
+    const HTMLString = videoItemTemplate(movie);
+    $actionContainer.append(HTMLString)
+    console.log(HTMLString);
+  })
+
   const $dramaContainer = document.getElementById('#drama')
   const $animationContainer = document.getElementById('#animation')
 
@@ -30,4 +43,7 @@
   const $modalTitle = $modal.querySelector('h1');
   const $modalImage = $modal.querySelector('img');
   const $modalDescription = $modal.querySelector('p');
+
+
+
   })()
