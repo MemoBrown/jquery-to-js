@@ -23,7 +23,10 @@
   actionList.data.movies.forEach((movie) => {
     // debugger
     const HTMLString = videoItemTemplate(movie);
-    $actionContainer.append(HTMLString)
+    const html = document.implementation.createHTMLDocument();
+    html.body.innerHTML = HTMLString;
+    // debugger
+    $actionContainer.append(html.body.children[0]);
     console.log(HTMLString);
   })
 
