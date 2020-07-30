@@ -1,3 +1,10 @@
+:root{
+  --color-bg: #E5EAFE;
+  --color-gradient-0: #5106FF;
+  --color-gradient-1: #61CBF2;
+  --color-font: #22255B;
+  --slogan-color: #36396f;
+}
 body {
   margin: 0;
   font-family: 'Lato', sans-serif;
@@ -37,8 +44,8 @@ body {
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: auto 1fr 1fr;
-  background: #171929;
-  color: white;
+  background: var(--color-bg);
+  color: var(--color-font);
   padding: 1em;
   box-sizing: border-box;
   height: 100vh;
@@ -67,7 +74,7 @@ body {
 }
 
 .myPlaylist-item a {
-  color: white;
+  color: var(--color-font);
   text-decoration: none;
   font-size: .8em;
   display: block;
@@ -89,7 +96,7 @@ body {
 }
 
 .playlistFriends-item {
-  color: white;
+  color: var(--color-font);
 }
 
 .playlistFriends-item {
@@ -100,7 +107,7 @@ body {
 .playlistFriends-item a {
   display: inline-flex;
   align-items: center;
-  color: white;
+  color: var(--color-font);
   text-decoration: none;
 }
 .playlistFriends-item:hover a {
@@ -219,7 +226,7 @@ body {
 
 
 .featuring {
-  background: linear-gradient(to right, #ff0000, #ff458b);
+  background: linear-gradient(to right, var(--color-gradient-0), var(--color-gradient-1));
   display: flex;
   height: 100%;
   align-items: center;
