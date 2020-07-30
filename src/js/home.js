@@ -7,7 +7,10 @@
   const actionList = await getData('https://yts.mx/api/v2/list_movies.json?genre=action')
   const dramaList = await getData('https://yts.mx/api/v2/list_movies.json?genre=drama')
   const animationList = await getData('https://yts.mx/api/v2/list_movies.json?genre=animation')
-  console.log(actionList, dramaList, animationList)
+  const comedyList = await getData('https://yts.mx/api/v2/list_movies.json?genre=comedy')
+  const fantasyList = await getData('https://yts.mx/api/v2/list_movies.json?genre=fantasy')
+  const romanceList = await getData('https://yts.mx/api/v2/list_movies.json?genre=romance')
+  console.log(actionList, dramaList, animationList, comedyList, fantasyList, romanceList)
   function videoItemTemplate(movie){
     return(
       `<div class="primaryPlaylistItem">
@@ -41,6 +44,15 @@
 
   const $animationContainer = document.getElementById('animation')
   renderMovieList(animationList.data.movies, $animationContainer)
+
+  const $comedyContainer = document.getElementById('comedy')
+  renderMovieList(comedyList.data.movies, $comedyContainer)
+  
+  const $fantasyContainer = document.getElementById('fantasy')
+  renderMovieList(fantasyList.data.movies, $fantasyContainer)
+  
+  const $romanceContainer = document.getElementById('romance')
+  renderMovieList(romanceList.data.movies, $romanceContainer)
 
 
 
