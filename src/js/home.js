@@ -57,9 +57,9 @@
   const fantasyList = await getData(`${BASE_API}list_movies.json?genre=fantasy`)
   const romanceList = await getData(`${BASE_API}list_movies.json?genre=romance`)
   console.log(actionList, dramaList, animationList, comedyList, fantasyList, romanceList)
-  function videoItemTemplate(movie){
+  function videoItemTemplate(movie, category){
     return(
-      `<div class="primaryPlaylistItem">
+      `<div class="primaryPlaylistItem" data-id="${movie.id}" data-category=${category}>
         <div class="primaryPlaylistItem-image">
           <img src="${movie.medium_cover_image}">
         </div>
@@ -74,14 +74,14 @@
   }
   function addEventClick($element){
     $element.addEventListener('click', () => {
-      showModal()
+      showModal($element)
     })
   }
-  function renderMovieList(list, $container){
+  function renderMovieList(list, $container, category){
     //actionList.data.movies
     $container.children[0].remove();
     list.forEach((movie) => {
-      const HTMLString = videoItemTemplate(movie);
+      const HTMLString = videoItemTemplate(movie, category);
       const movieElement = createTemplate(HTMLString)
       $container.append(movieElement);
       addEventClick(movieElement)
@@ -89,22 +89,22 @@
   }
   
   const $actionContainer = document.querySelector('#action')
-  renderMovieList(actionList.data.movies, $actionContainer)
+  renderMovieList(actionList.data.movies, $actionContainer, 'action')
 
   const $dramaContainer = document.getElementById('drama')
-  renderMovieList(dramaList.data.movies, $dramaContainer)
+  renderMovieList(dramaList.data.movies, $dramaContainer, 'drama')
 
   const $animationContainer = document.getElementById('animation')
-  renderMovieList(animationList.data.movies, $animationContainer)
+  renderMovieList(animationList.data.movies, $animationContainer, 'animation')
 
   const $comedyContainer = document.getElementById('comedy')
-  renderMovieList(comedyList.data.movies, $comedyContainer)
+  renderMovieList(comedyList.data.movies, $comedyContainer, 'comedy')
   
   const $fantasyContainer = document.getElementById('fantasy')
-  renderMovieList(fantasyList.data.movies, $fantasyContainer)
+  renderMovieList(fantasyList.data.movies, $fantasyContainer, 'fantasy')
   
   const $romanceContainer = document.getElementById('romance')
-  renderMovieList(romanceList.data.movies, $romanceContainer)
+  renderMovieList(romanceList.data.movies, $romanceContainer, 'romance')
 
 
 
@@ -118,17 +118,16 @@
   const $modalImage = $modal.querySelector('img');
   const $modalDescription = $modal.querySelector('p');
 
-  function showModal(){
+  function showModal($element){
     $overlay.classList.add('active');
-    $modal.style.animation = 'modalIn .8s forwards'
+    $modal.style.animation = 'modalIn .8s forwards';
+    const id = $element.dataset.id;
+    const category = $element.dataset.category;
   }
 
   $hideModal.addEventListener('click', hideModal);
   function hideModal(){
     $overlay.classList.remove('active');
-    $modal.style.animation = 'modalOut .8s forwards'
+    $modal.style.animation = 'modalOut .8s forwards';
   }
-
-
-
-  })()
+})()
