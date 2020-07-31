@@ -50,12 +50,12 @@
     $featuringContainer.innerHTML = HTMLString;
   })
 
-  const actionList = await getData(`${BASE_API}list_movies.json?genre=action`)
-  const dramaList = await getData(`${BASE_API}list_movies.json?genre=drama`)
-  const animationList = await getData(`${BASE_API}list_movies.json?genre=animation`)
-  const comedyList = await getData(`${BASE_API}list_movies.json?genre=comedy`)
-  const fantasyList = await getData(`${BASE_API}list_movies.json?genre=fantasy`)
-  const romanceList = await getData(`${BASE_API}list_movies.json?genre=romance`)
+  const { data: { movies: actionList } } = await getData(`${BASE_API}list_movies.json?genre=action`)
+  const { data: { movies: dramaList } } = await getData(`${BASE_API}list_movies.json?genre=drama`)
+  const { data: { movies: animationList } } = await getData(`${BASE_API}list_movies.json?genre=animation`)
+  const { data: { movies: comedyList } } = await getData(`${BASE_API}list_movies.json?genre=comedy`)
+  const { data: { movies: fantasyList } } = await getData(`${BASE_API}list_movies.json?genre=fantasy`)
+  const { data: { movies: romanceList } } = await getData(`${BASE_API}list_movies.json?genre=romance`)
   console.log(actionList, dramaList, animationList, comedyList, fantasyList, romanceList)
   function videoItemTemplate(movie, category){
     return(
@@ -89,26 +89,22 @@
   }
   
   const $actionContainer = document.querySelector('#action')
-  renderMovieList(actionList.data.movies, $actionContainer, 'action')
+  renderMovieList(actionList, $actionContainer, 'action')
 
   const $dramaContainer = document.getElementById('drama')
-  renderMovieList(dramaList.data.movies, $dramaContainer, 'drama')
+  renderMovieList(dramaList, $dramaContainer, 'drama')
 
   const $animationContainer = document.getElementById('animation')
-  renderMovieList(animationList.data.movies, $animationContainer, 'animation')
+  renderMovieList(animationList, $animationContainer, 'animation')
 
   const $comedyContainer = document.getElementById('comedy')
-  renderMovieList(comedyList.data.movies, $comedyContainer, 'comedy')
+  renderMovieList(comedyList, $comedyContainer, 'comedy')
   
   const $fantasyContainer = document.getElementById('fantasy')
-  renderMovieList(fantasyList.data.movies, $fantasyContainer, 'fantasy')
+  renderMovieList(fantasyList, $fantasyContainer, 'fantasy')
   
   const $romanceContainer = document.getElementById('romance')
-  renderMovieList(romanceList.data.movies, $romanceContainer, 'romance')
-
-
-
-
+  renderMovieList(romanceList, $romanceContainer, 'romance')
 
   const $modal = document.getElementById('modal');
   const $overlay = document.getElementById('overlay')
@@ -118,11 +114,42 @@
   const $modalImage = $modal.querySelector('img');
   const $modalDescription = $modal.querySelector('p');
 
+  function findById(list, id){
+    return list.find(movie =>  movie.id === parseInt(id, 10))
+  }
+  function findMovie(id, category){
+    switch(category){
+      case 'action' : {
+        return findById(actionList, id)
+      }
+      case 'drama' : {
+        return findById(dramaList, id)
+      }
+      case 'animation' : {
+        return findById(animationList, id)
+      }
+      case 'comedy' : {
+        return findById(comedyList, id)
+      }
+      case 'fantasy' : {
+        return findById(fantasyList, id)
+      }
+      default: {
+        return findById(romanceList, id)
+      }
+    }
+  }
+
   function showModal($element){
     $overlay.classList.add('active');
     $modal.style.animation = 'modalIn .8s forwards';
     const id = $element.dataset.id;
     const category = $element.dataset.category;
+    const data = findMovie(id, category);
+    $modalTitle.textContent = data.title;
+    $modalImage.setAttribute('src', data.medium_cover_image);
+    $modalDescription.textContent = data.description_full;
+  
   }
 
   $hideModal.addEventListener('click', hideModal);
