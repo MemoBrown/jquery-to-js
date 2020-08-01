@@ -97,34 +97,47 @@
       addEventClick(movieElement)
     })
   }
-  
-  const { data: { movies: animationList } } = await getData(`${BASE_API}list_movies.json?genre=animation`)
-  window.localStorage.setItem('animationList', JSON.stringify(animationList))
+
+  async function cacheExist(category){
+    const listName = `${category}List`
+    const cacheList = window.localStorage.getItem(listName);
+    if(cacheList ){
+      return JSON.parse(cacheList);
+    }
+    const { data: { movies: data } } = await getData(`${BASE_API}list_movies.json?genre=${category}`);
+    window.localStorage.setItem(listName, JSON.stringify(data))
+    return data;
+  }
+
+
+  // const { data: { movies: animationList } } = await getData(`${BASE_API}list_movies.json?genre=animation`)
+  const animationList = await cacheExist('animation')
+  // window.localStorage.setItem('animationList', JSON.stringify(animationList))
   const $animationContainer = document.getElementById('animation')
   renderMovieList(animationList, $animationContainer, 'animation')
 
-  const { data: { movies: actionList } } = await getData(`${BASE_API}list_movies.json?genre=action`)
-  window.localStorage.setItem('actionList', JSON.stringify(actionList))
+  const actionList = await cacheExist('action')
+  // window.localStorage.setItem('actionList', JSON.stringify(actionList))
   const $actionContainer = document.querySelector('#action')
   renderMovieList(actionList, $actionContainer, 'action')
   
-  const { data: { movies: dramaList } } = await getData(`${BASE_API}list_movies.json?genre=drama`)
-  window.localStorage.setItem('dramaList', JSON.stringify(dramaList))
+  const dramaList = await cacheExist('drama')
+  // window.localStorage.setItem('dramaList', JSON.stringify(dramaList))
   const $dramaContainer = document.getElementById('drama')
   renderMovieList(dramaList, $dramaContainer, 'drama')
     
-  const { data: { movies: comedyList } } = await getData(`${BASE_API}list_movies.json?genre=comedy`)
-  window.localStorage.setItem('comedyList', JSON.stringify(comedyList))
+  const comedyList = await cacheExist('comedy')
+  // window.localStorage.setItem('comedyList', JSON.stringify(comedyList))
   const $comedyContainer = document.getElementById('comedy')
   renderMovieList(comedyList, $comedyContainer, 'comedy')
   
-  const { data: { movies: fantasyList } } = await getData(`${BASE_API}list_movies.json?genre=fantasy`)
-  window.localStorage.setItem('fantasyList', JSON.stringify(fantasyList))
+  const fantasyList = await cacheExist('fantasy')
+  // window.localStorage.setItem('fantasyList', JSON.stringify(fantasyList))
   const $fantasyContainer = document.getElementById('fantasy')
   renderMovieList(fantasyList, $fantasyContainer, 'fantasy')
   
-  const { data: { movies: romanceList } } = await getData(`${BASE_API}list_movies.json?genre=romance`)
-  window.localStorage.setItem('romanceList', JSON.stringify(romanceList))
+  const romanceList = await cacheExist('romance')
+  // window.localStorage.setItem('romanceList', JSON.stringify(romanceList))
   const $romanceContainer = document.getElementById('romance')
   renderMovieList(romanceList, $romanceContainer, 'romance')
 
