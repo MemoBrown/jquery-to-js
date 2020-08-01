@@ -195,6 +195,15 @@ body {
   display: flex;
   overflow: auto;
 }
+.primaryPlaylist-list img{
+  transition: 300ms;
+}
+
+.primaryPlaylist-list img:hover{
+  transform: scale(1.1);
+  cursor: pointer;
+  transition: 300ms;
+}
 
 .primaryPlaylist-list .primaryPlaylistItem {
   margin-right: 10px;
